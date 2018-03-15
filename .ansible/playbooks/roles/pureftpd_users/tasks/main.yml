@@ -1,0 +1,31 @@
+---
+- group:
+    name: "{{cops_pureftpd_vars.group}}"
+    state: present
+  tags: [cops_pureftpd_s_users_group]
+  when: [cops_pureftpd_s_users_group]
+- user:
+    group: "{{cops_pureftpd_vars.group}}"
+    name: "{{cops_pureftpd_vars.user}}"
+    state: present
+    append: true
+    generate_ssh_key: true
+  tags: [cops_pureftpd_s_users_user]
+  when: [cops_pureftpd_s_users_user]
+- group:
+    name: "{{item.group}}"
+    state: present
+  tags: [cops_pureftpd_s_users_group]
+  when: [cops_pureftpd_s_users_group]
+  with_items: "{{cops_pureftpd_vars.ftp_additional_users}}"
+- user:
+    group: "{{item.group}}"
+    name: "{{item.user}}"
+    home: "{{item.home|default(omit)}}"
+    state: present
+    append: true
+    generate_ssh_key: true
+  tags: [cops_pureftpd_s_users_user]
+  when: [cops_pureftpd_s_users_user]
+  with_items: "{{cops_pureftpd_vars.ftp_additional_users}}"
+

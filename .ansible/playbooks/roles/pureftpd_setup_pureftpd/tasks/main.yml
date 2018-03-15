@@ -1,0 +1,12 @@
+---
+- become: true
+  become_user: "{{cops_pureftpd_vars.user}}"
+  block:
+  - include_tasks: _sudo.yml
+- include_role: {name: corpusops.roles/services_ftp_pureftpd}
+  tags: [cops_pureftpd_s_setup_pureftpd_reconfigure]
+  when: [cops_pureftpd_s_setup_pureftpd_reconfigure]
+  vars:
+    corpusops_services_ftp_pureftpd_prequisites: false
+    corpusops_services_ftp_pureftpd_configuration: true
+    corpusops_services_ftp_pureftpd_services: false

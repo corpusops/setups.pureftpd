@@ -1,0 +1,14 @@
+---
+- include_tasks: _ftp_user.yml
+  vars:
+    ftp_user: "{{fdata.key|default('ftp')}}"
+    password: "{{fdata.value.password}}"
+    home: "{{fdata.value.home}}"
+    owner:       "{{fdata.value.owner      |default(fdata.value.user |default(cops_pureftpd_vars.user ))}}"
+    owner_group: "{{fdata.value.owner_group|default(fdata.value.group|default(cops_pureftpd_vars.group))}}"
+    user:  "{{fdata.value.user |default('nobody')}}"
+    group: "{{fdata.value.group|default('nobody')}}"
+    mode: "{{fdata.value.mode|default('2771')}}"
+    delete: "{{fdata.delete|default(false)}}"
+  with_dict: "{{ftp_user_wrap}}"
+  loop_control: {loop_var: fdata}

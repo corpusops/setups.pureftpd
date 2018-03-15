@@ -1,0 +1,17 @@
+---
+- file:
+    state: directory
+    path: "{{home}}"
+    owner: "{{owner}}"
+    group: "{{owner_group}}"
+    mode: "{% set smode = mode|default('2771')
+           %}{% if smode
+           %}{{smode}}{% else
+           %}{{omit}}{%endif%}"
+- name: "configure pureftpd virtualuser {{ftp_user}} -> {{user}}:{{group}}({{owner}}/{{owner_group}})"
+  template:
+    src: "../templates/ftpuser.sh"
+    dest: "{{corpusops_services_ftp_pureftpd_vars.prefix}}/user_{{ftp_user}}"
+    mode: "0700"
+- name: "configure pureftpd virtualuser {{ftp_user}} -> {{user}}:{{group}}({{owner}}/{{owner_group}})"
+  shell: "{{corpusops_services_ftp_pureftpd_vars.prefix}}/user_{{ftp_user}}"

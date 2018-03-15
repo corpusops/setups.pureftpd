@@ -1,0 +1,35 @@
+---
+- tags: [cops_pureftpd_lifecycle_app_setup]
+  when: [cops_pureftpd_lifecycle_app_setup]
+  become: "{{cops_pureftpd_vars.become}}"
+  block:
+  - include_role: {name: pureftpd_users, allow_duplicates: false}
+    tags: [cops_pureftpd_s_users]
+    when: [cops_pureftpd_s_users]
+  - include_role: {name: pureftpd_layout, allow_duplicates: false}
+    tags: [cops_pureftpd_s_layout]
+    when: [cops_pureftpd_s_layout]
+  - include_role: {name: pureftpd_fixperms, allow_duplicates: true}
+    tags: [cops_pureftpd_s_first_fixperms]
+    when: [cops_pureftpd_s_first_fixperms]
+  - include_role: {name: pureftpd_prerequisites, allow_duplicates: false}
+    tags: [cops_pureftpd_s_prerequisites]
+    when: [cops_pureftpd_s_prerequisites]
+  - include_role: {name: pureftpd_setup, allow_duplicates: false}
+    tags: [cops_pureftpd_s_setup]
+    when: [cops_pureftpd_s_setup]
+  - include_role: {name: pureftpd_workers, allow_duplicates: false}
+    tags: [cops_pureftpd_s_workers]
+    when: [cops_pureftpd_s_workers]
+  - include_role: {name: pureftpd_entry_point, allow_duplicates: false}
+    tags: [cops_pureftpd_s_entry_point]
+    when: [cops_pureftpd_s_entry_point]
+  - include_role: {name: pureftpd_manage_content, allow_duplicates: false}
+    tags: [cops_pureftpd_s_manage_content]
+    when: [cops_pureftpd_s_manage_content]
+  - include_role: {name: pureftpd_healthchecks, allow_duplicates: false}
+    tags: [cops_pureftpd_s_healthchecks]
+    when: [cops_pureftpd_s_healthchecks]
+  - include_role: {name: pureftpd_fixperms, allow_duplicates: true}
+    tags: [cops_pureftpd_s_end_fixperms]
+    when: [cops_pureftpd_s_end_fixperms]

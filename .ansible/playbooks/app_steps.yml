@@ -1,0 +1,8 @@
+---
+# Preconfigured playbook to slectivily call subparts of the main app role & playbooks
+# eg:
+#  ansible-playbook .ansible/playbooks/app_steps.yml -e "cops_pureftpd_s_setup_maintenance_on=false cops_pureftpd_s_setup=True"
+- hosts: "{{pureftpd_servers|default('all')}}"
+  tasks:
+  - include_role: {name: pureftpd_app_vars,  allow_duplicates: false}
+  - include_role: {name: pureftpd_steps,     allow_duplicates: false}

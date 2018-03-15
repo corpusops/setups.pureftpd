@@ -1,0 +1,5 @@
+---
+- when: ["(corpusops_vars.has_services_manager and cops_pureftpd_vars.activated)"]
+  block:
+  # Check reverse proxy is listening
+  - include_tasks: _check.yml

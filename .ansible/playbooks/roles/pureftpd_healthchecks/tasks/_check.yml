@@ -1,0 +1,7 @@
+---
+- wait_for:
+    search_regex: Pure-FTPd
+    timeout: 10
+    port: "{{cops_pureftpd_vars.internal_port}}"
+    host: "{{cops_pureftpd_vars.internal_host}}"
+  register: cops_pureftpd_check1

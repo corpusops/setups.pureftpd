@@ -1,0 +1,5 @@
+---
+cops_pureftpd_name: "{{cops_app_name}}"
+cops_installer_mode: lazy
+pureftpd_servers: pureftpd_servers
+# vim:set ft=sls:

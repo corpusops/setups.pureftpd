@@ -1,0 +1,13 @@
+---
+# APP
+- hosts: "{{pureftpd_servers|default('all')}}"
+  roles: [corpusops.roles/ansible_plugins]
+  tasks:
+  - when: ["cops_pureftpd_lifecycle_app|default(true)"]
+    tags: ["cops_pureftpd_lifecycle_app"]
+    include_role: {name: pureftpd_app_vars,  allow_duplicates: false}
+  - when: ["cops_pureftpd_lifecycle_app"]
+    tags: ["cops_pureftpd_lifecycle_app"]
+    block:
+    - include_role: {name: pureftpd_push_code, allow_duplicates: false}
+    - include_role: {name: pureftpd,           allow_duplicates: false}

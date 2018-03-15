@@ -1,0 +1,10 @@
+---
+cops_deploy_ssh_key_paths:
+  staging:
+    path: "{{'local/.ssh/deploy_staging'|copsf_abspath}}"
+    pub: |-
+      ssh-rsa xxx aaa
+    private: |-
+      -----BEGIN RSA PRIVATE KEY-----
+      xxx
+      -----END RSA PRIVATE KEY-----

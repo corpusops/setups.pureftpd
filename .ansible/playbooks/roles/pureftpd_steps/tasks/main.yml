@@ -1,0 +1,74 @@
+---
+- set_fact:
+    cacheable: false
+    only_steps: "{{only_steps|default(False)}}"
+- set_fact:
+    cacheable: false
+    cops_pureftpd_s_prerequisites_build_pkgs: "{{cops_pureftpd_s_prerequisites_build_pkgs |default(cops_pureftpd_s_prerequisites|default(cops_pureftpd_lifecycle_app_prerequisites|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps))))}}"
+    cops_pureftpd_s_prerequisites_pkgs:       "{{cops_pureftpd_s_prerequisites_pkgs       |default(cops_pureftpd_s_prerequisites|default(cops_pureftpd_lifecycle_app_prerequisites|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps))))}}"
+    cops_pureftpd_s_prerequisites_pureftpd:   "{{cops_pureftpd_s_prerequisites_pureftpd   |default(cops_pureftpd_s_prerequisites|default(cops_pureftpd_lifecycle_app_prerequisites|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps))))}}"
+    cops_pureftpd_s_setup_configs:    "{{cops_pureftpd_s_setup_configs                                                                              |default(cops_pureftpd_s_setup|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps)))}}"
+    cops_pureftpd_s_setup_hosts:      "{{cops_pureftpd_s_setup_hosts                                                                                |default(cops_pureftpd_s_setup|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps)))}}"
+    cops_pureftpd_s_setup_pureftpd_reconfigure:   "{{cops_pureftpd_s_setup_pureftpd_reconfigure|default(cops_pureftpd_s_setup_pureftpd              |default(cops_pureftpd_s_setup|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps))))}}"
+
+    cops_pureftpd_s_workers_service: "{{cops_pureftpd_s_workers_service                                                                           |default(cops_pureftpd_s_workers|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps)))}}"
+    cops_pureftpd_s_healthchecks:  "{{cops_pureftpd_s_healthchecks                                                                                                                |default(cops_pureftpd_lifecycle_app_setup|default(not only_steps))}}"
+    cops_pureftpd_s_layout_layout:  "{{cops_pureftpd_s_layout_layout|default(cops_pureftpd_s_layout      |default(cops_pureftpd_lifecycle_app_layout|default(cops_pureftpd_s_setup|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps)))))}}"
+    cops_pureftpd_s_manage_content_users: "{{cops_pureftpd_s_manage_content_users                                                          |default(cops_pureftpd_s_manage_content|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps)))}}"
+    cops_pureftpd_s_fixperms_configs:   "{{cops_pureftpd_s_fixperms_configs|default((cops_pureftpd_s_first_fixperms|default(not only_steps)) or (cops_pureftpd_s_end_fixperms|default(not only_steps)))}}"
+    cops_pureftpd_s_fixperms_run:       "{{cops_pureftpd_s_fixperms_run    |default((cops_pureftpd_s_first_fixperms|default(not only_steps)) or (cops_pureftpd_s_end_fixperms|default(not only_steps)))}}"
+- set_fact:
+    cacheable: false
+    cops_pureftpd_s_manage_content:       "{{(
+      cops_pureftpd_s_manage_content_users)}}"
+    cops_pureftpd_s_layout:         "{{cops_pureftpd_s_layout_layout}}"
+    cops_pureftpd_s_prerequisites:  "{{(
+      cops_pureftpd_s_prerequisites_pureftpd or
+      cops_pureftpd_s_prerequisites_build_pkgs or
+      cops_pureftpd_s_prerequisites_pkgs)}}"
+    cops_pureftpd_s_setup_pureftpd:  "{{(cops_pureftpd_s_setup_pureftpd_reconfigure)}}"
+    cops_pureftpd_s_workers:        "{{cops_pureftpd_s_workers               |default(cops_pureftpd_lifecycle_app_setup|default(not only_steps))}}"
+    cops_pureftpd_s_first_fixperms: "{{cops_pureftpd_s_first_fixperms                                                  |default(not only_steps)}}"
+    cops_pureftpd_s_end_fixperms:   "{{cops_pureftpd_s_end_fixperms                                                    |default(not only_steps)}}"
+    cops_pureftpd_s_entry_point:    "{{cops_pureftpd_s_entry_point       |default(ansible_virtualization_type in ['docker'] and not only_steps)}}"
+- set_fact:
+    cacheable: false
+    cops_pureftpd_s_users_user:     "{{cops_pureftpd_s_users_user |default(cops_pureftpd_s_end_fixperms or cops_pureftpd_s_first_fixperms or default(cops_pureftpd_s_users|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps))))}}"
+    cops_pureftpd_s_users_group:    "{{cops_pureftpd_s_users_group|default(cops_pureftpd_s_end_fixperms or cops_pureftpd_s_first_fixperms or default(cops_pureftpd_s_users|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps))))}}"
+- set_fact:
+    cacheable: false
+    cops_pureftpd_s_users:          "{{cops_pureftpd_s_users_user or cops_pureftpd_s_users_group}}"
+    cops_pureftpd_s_setup: "{{(
+        cops_pureftpd_s_setup_configs or
+        cops_pureftpd_s_setup_pureftpd)}}"
+- set_fact:
+    cacheable: false
+    cops_pureftpd_lifecycle_app_level_1_steps: "{{(
+        cops_pureftpd_s_users or
+        cops_pureftpd_s_layout or
+        cops_pureftpd_s_first_fixperms or
+        cops_pureftpd_s_prerequisites or
+        cops_pureftpd_s_setup or
+        cops_pureftpd_s_workers or
+        cops_pureftpd_s_healthchecks or
+        cops_pureftpd_s_entry_point or
+        cops_pureftpd_s_manage_content or
+        cops_pureftpd_s_end_fixperms)}}"
+- set_fact:
+    cacheable: false
+    cops_pureftpd_lifecycle_app_setup: "{{cops_pureftpd_lifecycle_app_setup|default(
+                                          (cops_pureftpd_lifecycle_app|default(False)) or (
+                                            cops_pureftpd_lifecycle_app_level_1_steps))}}"
+    cops_pureftpd_lifecycle_app_push_code: "{{cops_pureftpd_lifecycle_app_push_code|default(cops_pureftpd_lifecycle_app|default(not only_steps))}}"
+- set_fact:
+    cacheable: false
+    cops_pureftpd_lifecycle_app: "{{cops_pureftpd_lifecycle_app|default(
+        cops_pureftpd_lifecycle_app_push_code or
+        cops_pureftpd_lifecycle_app_setup)}}"
+- set_fact:
+    cacheable: false
+    cops_pureftpd_lifecycle_lc_1_steps: "{{(
+      cops_pureftpd_lifecycle_app)}}"
+- set_fact:
+    cacheable: false
+    cops_pureftpd_s_vars: "{{cops_pureftpd_s_vars|default(cops_pureftpd_lifecycle_lc_1_steps)}}"

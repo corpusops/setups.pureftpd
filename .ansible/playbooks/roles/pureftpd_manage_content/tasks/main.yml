@@ -1,0 +1,9 @@
+---
+- include_tasks: _ftp_user_wrap.yml
+  with_items: "{{cops_pureftpd_vars.ftp_users}}"
+  loop_control: {loop_var: ftp_user_wrap}
+  tags: [cops_pureftpd_s_manage_content_users]
+  when: [cops_pureftpd_s_manage_content_users]
+- become: true
+  become_user: "{{cops_pureftpd_vars.user}}"
+  include_tasks: _sudo.yml

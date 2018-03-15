@@ -1,0 +1,5 @@
+---
+pureftpd_servers: all
+cops_pureftpd_reconfigure_service_stderr: "journal+console"
+cops_pureftpd_reconfigure_service_stdout: "journal+console"
+cops_pureftpd_servers_ips: [127.0.0.1]
