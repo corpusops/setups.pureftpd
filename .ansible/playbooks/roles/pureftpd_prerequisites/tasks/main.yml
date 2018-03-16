@@ -60,6 +60,6 @@
   tags: [cops_pureftpd_s_prerequisites_pureftpd]
   when: [cops_pureftpd_s_prerequisites_pureftpd]
   vars:
-    corpusops_services_ftp_pureftpd_prequisites: true
-    corpusops_services_ftp_pureftpd_configuration: false
-    corpusops_services_ftp_pureftpd_services: false
+    corpusops_services_ftp_pureftpd_do_prequisites: true
+    corpusops_services_ftp_pureftpd_do_configuration: false
+    corpusops_services_ftp_pureftpd_do_services: false

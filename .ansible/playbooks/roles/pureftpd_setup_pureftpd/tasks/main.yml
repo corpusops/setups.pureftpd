@@ -7,6 +7,6 @@
   tags: [cops_pureftpd_s_setup_pureftpd_reconfigure]
   when: [cops_pureftpd_s_setup_pureftpd_reconfigure]
   vars:
-    corpusops_services_ftp_pureftpd_prequisites: false
-    corpusops_services_ftp_pureftpd_configuration: true
-    corpusops_services_ftp_pureftpd_services: false
+    corpusops_services_ftp_pureftpd_do_prequisites: false
+    corpusops_services_ftp_pureftpd_do_configuration: true
+    corpusops_services_ftp_pureftpd_do_services: false
