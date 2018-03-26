@@ -197,7 +197,6 @@ cops_deploy_ssh_key_paths:
 cops_pureftpd_environment___default:
   FOO: bar
 cops_pureftpd_environment: "{{vars['cops_pureftpd_environment___default']}}"
-cops_pureftpd_ftp_root: "{data_root}/ftp"
 cops_pureftpd_conf_Passsive: "{data_root}/ftp"
 corpusops_services_ftp_pureftpd_conf_ForcePassiveIP: null
 corpusops_services_ftp_pureftpd_conf_PassivePortRange: null
@@ -206,6 +205,7 @@ corpusops_services_ftp_pureftpd_conf_PassivePortRange: null
 cops_pureftpd_ftp_additional_users:
 - user: "{user}-ro"
   group: "{group}-ro"
+#cops_pureftpd_ftp_root: "{data_root}/ftp"
 cops_pureftpd_ftp_root: /srv/ftp
 cops_pureftpd_ftp_users:
 - admin:
