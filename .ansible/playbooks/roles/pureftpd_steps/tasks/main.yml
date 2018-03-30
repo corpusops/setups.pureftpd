@@ -2,9 +2,7 @@
 - set_fact:
     cacheable: false
     only_steps: "{{only_steps|default(False)}}"
-- set_fact:
-    cacheable: false
-    cops_pureftpd_lifecycle_app_push_code: "{{cops_pureftpd_lifecycle_app_push_code|default(not only_steps)}}"
+    cops_pureftpd_lifecycle_app_push_code: "{{cops_pureftpd_lifecycle_app_push_code|default(cops_pureftpd_lifecycle_app|default(not only_steps))}}"
 - set_fact:
     cacheable: false
     cops_pureftpd_s_prerequisites_build_pkgs: "{{cops_pureftpd_s_prerequisites_build_pkgs |default(cops_pureftpd_s_prerequisites|default(cops_pureftpd_lifecycle_app_prerequisites|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps))))}}"
@@ -37,7 +35,7 @@
 - set_fact:
     cacheable: false
     cops_pureftpd_s_users_user:  "{{cops_pureftpd_s_users_user |default(cops_pureftpd_s_end_fixperms or cops_pureftpd_s_first_fixperms or cops_pureftpd_lifecycle_app_push_code or cops_pureftpd_s_users|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps)))}}"
-    cops_pureftpd_s_users_group: "{{cops_pureftpd_s_users_group|default(cops_pureftpd_s_end_fixperms or cops_pureftpd_s_first_fixperms or cops_pureftpd_lifecycle_app_push_code or cops_pureftpd_s_users|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps)))}}"
+    cops_pureftpd_s_users_user:  "{{cops_pureftpd_s_users_user |default(cops_pureftpd_s_end_fixperms or cops_pureftpd_s_first_fixperms or cops_pureftpd_lifecycle_app_push_code or cops_pureftpd_s_users|default(cops_pureftpd_lifecycle_app_setup|default(not only_steps)))}}"
 - set_fact:
     cacheable: false
     cops_pureftpd_s_users:          "{{cops_pureftpd_s_users_user or cops_pureftpd_s_users_group}}"
