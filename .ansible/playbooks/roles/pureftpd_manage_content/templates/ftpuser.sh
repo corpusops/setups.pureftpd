@@ -29,11 +29,11 @@ EOF
       cat "$f" | pure-pw usermod "$USER" -d "$UHOME" -u $uid -g $gid -m
       ret=$?
     fi
-    if [ "x$ret" = "0" ];then
+    if [ "x$ret" = "x0" ];then
         cat "$f" | pure-pw passwd "$USER"
         ret=$?
     fi
-    if [ "x$ret" = "0" ];then
+    if [ "x$ret" = "x0" ];then
         pure-pw mkdb
         ret=$?
     fi
