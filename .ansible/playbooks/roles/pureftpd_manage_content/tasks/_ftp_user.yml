@@ -15,3 +15,4 @@
     mode: "0700"
 - name: "configure pureftpd virtualuser {{ftp_user}} -> {{user}}:{{group}}({{owner}}/{{owner_group}})"
   shell: "{{corpusops_services_ftp_pureftpd_vars.prefix}}/user_{{ftp_user}}"
+  no_log: "{{not (cops_ftp_users_setup_debug|default(false))}}"
