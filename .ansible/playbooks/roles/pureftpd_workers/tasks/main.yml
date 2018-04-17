@@ -5,7 +5,7 @@
   # activate the main app service
   - include_role: {name: corpusops.roles/services_ftp_pureftpd}
     vars:
-      corpusops_services_ftp_pureftpd_do_prequisites: false
+      corpusops_services_ftp_pureftpd_do_prerequisites: false
       corpusops_services_ftp_pureftpd_do_configuration: false
       corpusops_services_ftp_pureftpd_do_services: true
   # force a reload/restart here
