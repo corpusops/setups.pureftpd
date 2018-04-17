@@ -2,16 +2,6 @@
 - when: [cops_pureftpd_s_prerequisites_pkgs]
   tags: [cops_pureftpd_s_prerequisites_pkgs]
   block:
-  # workaround the libjpegturbo transitional
-  # package hell by installing it explicitly
-  - name: update & install libjpeg-dev (workaround for deb bug)
-    package:
-      cache_valid_time: '{{60*60}}'
-      update_cache: yes
-      name: '{{item}}'
-      state: present
-    when: "(ansible_os_family.lower() in ['debian'])"
-    with_items: [libjpeg-dev]
   - name: update & install prerequisites
     package:
       cache_valid_time: '{{60*60}}'

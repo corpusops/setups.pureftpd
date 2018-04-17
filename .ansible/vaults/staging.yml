@@ -8,3 +8,4 @@ cops_deploy_ssh_key_paths:
       -----BEGIN RSA PRIVATE KEY-----
       xxx
       -----END RSA PRIVATE KEY-----
+cops_pureftpd_ftp_admin_password: secret6c5f8P293Ma47Rn
