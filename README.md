@@ -1,7 +1,5 @@
 # corpusops pureftpd deployment
-    
-## Support development
-- [paypal](https://paypal.me/kiorky)
+
 
 ## Redo only the ftp users setup
 ```sh
