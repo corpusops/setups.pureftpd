@@ -17,7 +17,7 @@
     state: present
   tags: [cops_pureftpd_s_users_group]
   when: [cops_pureftpd_s_users_group]
-  with_items: "{{cops_pureftpd_vars.ftp_additional_users}}"
+  loop: "{{cops_pureftpd_vars.ftp_additional_users}}"
 - user:
     group: "{{item.group}}"
     name: "{{item.user}}"
@@ -27,5 +27,5 @@
     generate_ssh_key: true
   tags: [cops_pureftpd_s_users_user]
   when: [cops_pureftpd_s_users_user]
-  with_items: "{{cops_pureftpd_vars.ftp_additional_users}}"
+  loop: "{{cops_pureftpd_vars.ftp_additional_users}}"
 

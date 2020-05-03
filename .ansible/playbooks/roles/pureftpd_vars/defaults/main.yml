@@ -4,19 +4,19 @@ corpusops_core_projects_path: /srv/projects
 # When this is enabled, the project user/group is also granted full perms
 # (attention, uids!)
 cops_pureftpd__supereditors_paths:
-  - "{{vars['cops_pureftpd_project_root']}}"
-  - "{{vars['cops_pureftpd_data_root']}}"
+  - "{{cops_pureftpd_project_root}}"
+  - "{{cops_pureftpd_data_root}}"
 # space separated string of uids to allow to write inside
 # projetct directories (used in development through posix ACLS setter)
 cops_pureftpd__supereditors: >-
   {{ ansible_env.get(
       'SUPEREDITORS', cops_supereditors|default('')
      ) | copsf_splitstrip | to_json }}
-cops_pureftpd_supereditors_paths: "{{vars['cops_pureftpd__supereditors_paths']}}"
-cops_pureftpd_supereditors: "{{vars['cops_pureftpd__supereditors']}}"
+cops_pureftpd_supereditors_paths: "{{cops_pureftpd__supereditors_paths}}"
+cops_pureftpd_supereditors: "{{cops_pureftpd__supereditors}}"
 # cops_pureftpd_deb_packages is initialised on behalf of cops_registry voodoo
 # and let users override the list easily
-# cops_pureftpd_packages: "{{vars['cops_pureftpd_deb_packages___default']+['vim']}}"
+# cops_pureftpd_packages: "{{cops_pureftpd_deb_packages___default+['vim']}}"
 cops_pureftpd_deb_runtime_packages: []
 cops_pureftpd_deb_packages___default: "{{
   (cops_pureftpd_deb_runtime_packages)
@@ -35,14 +35,14 @@ cops_pureftpd_restart_check_retries: 60
 cops_pureftpd_internal_host: "127.0.0.1"
 cops_pureftpd_internal_port: "21"
 cops_pureftpd_name: 'pureftpd'
-cops_pureftpd_user: "{{vars['cops_pureftpd_name']}}-user"
-cops_pureftpd_group: "{{vars['cops_pureftpd_name']}}-group"
+cops_pureftpd_user: "{{cops_pureftpd_name}}-user"
+cops_pureftpd_group: "{{cops_pureftpd_name}}-group"
 cops_pureftpd_projects_dir: "{{corpusops_vars.projects_path}}"
-cops_pureftpd_project_dir: "{{vars['cops_pureftpd_projects_dir']}}/{{vars['cops_pureftpd_name']}}"
-cops_pureftpd_project_root: "{{vars['cops_pureftpd_project_dir']}}/project"
-cops_pureftpd_data_root: "{{vars['cops_pureftpd_project_dir']}}/data"
-cops_pureftpd_fixperms: "{{vars['cops_pureftpd_project_dir']}}/fixperms.sh"
-cops_pureftpd_fixperms_cron: "/etc/cron.d/{{vars['cops_pureftpd_name']}}-fixperms"
+cops_pureftpd_project_dir: "{{cops_pureftpd_projects_dir}}/{{cops_pureftpd_name}}"
+cops_pureftpd_project_root: "{{cops_pureftpd_project_dir}}/project"
+cops_pureftpd_data_root: "{{cops_pureftpd_project_dir}}/data"
+cops_pureftpd_fixperms: "{{cops_pureftpd_project_dir}}/fixperms.sh"
+cops_pureftpd_fixperms_cron: "/etc/cron.d/{{cops_pureftpd_name}}-fixperms"
 cops_pureftpd_fixperms_cron_periodicity: "0 */2 * * *"
 cops_pureftpd_secret_variables:
   - admin_password
@@ -54,7 +54,7 @@ cops_pureftpd_cops_sub_namespaces:
   lifecycle: {}
   ftp_conf: {}
 cops_pureftpd_use_etc_hosts: false
-cops_pureftpd_pureftpd_uri: "http://{{vars['cops_pureftpd_domain']}}"
+cops_pureftpd_pureftpd_uri: "http://{{cops_pureftpd_domain}}"
 cops_pureftpd_env_overrides: {}
 cops_pureftpd_env: {}
 cops_pureftpd_pureftpd_bind_host: '127.0.0.1'
@@ -62,13 +62,13 @@ cops_pureftpd_pureftpd_bind_host: '127.0.0.1'
 ## entry point
 cops_pureftpd_provision_dir: /provision_dir
 cops_pureftpd_ep_ansible_args: >-
- -e "cops_cwd={{vars['cops_pureftpd_provision_dir']}}"
+ -e "cops_cwd={{cops_pureftpd_provision_dir}}"
  -e "cops_playbooks=${COPS_ROOT}/playbooks/corpusops"
  -e "cops_path=${COPS_ROOT}"
 cops_pureftpd_ep_vaults:
-  - "{{vars['cops_pureftpd_provision_dir']}}/.ansible/vaults/default.yml"
-  - "{{vars['cops_pureftpd_provision_dir']}}/.ansible/vaults/app.yml"
-  - "{{vars['cops_pureftpd_provision_dir']}}/.ansible/vaults/docker.yml"
+  - "{{cops_pureftpd_provision_dir}}/.ansible/vaults/default.yml"
+  - "{{cops_pureftpd_provision_dir}}/.ansible/vaults/app.yml"
+  - "{{cops_pureftpd_provision_dir}}/.ansible/vaults/docker.yml"
   - /setup/reconfigure.yml
 cops_pureftpd_ep_template: "../templates/app_entry_point"
 # Docker entrypoint settings, tags for cli and vars for playbook reuse via
@@ -99,11 +99,11 @@ cops_pureftpd_ep_post_start_skip_tags: "{{(
   )}}"
 # global orchestration steps (db, code sync, web & workers prereqs, pureftpd config)
 cops_pureftpd_become: true
-#  - "add --force file:{{vars['cops_pureftpd_project_root']}}/develop/plone.restapi-angular"
+#  - "add --force file:{{cops_pureftpd_project_root}}/develop/plone.restapi-angular"
 cops_pureftpd_ep_main_ep: "/entry_point"
 # service
 cops_pureftpd_service: "pure-ftpd"
-cops_pureftpd_services: ["{{vars['cops_pureftpd_service']}}"]
+cops_pureftpd_services: ["{{cops_pureftpd_service}}"]
 cops_pureftpd_services_nginx_reload_state: "reloaded"
 # cops_pureftpd_rhandlers: [reload_cops_pureftpd]
 cops_pureftpd_rhandlers: [restart_cops_pureftpd_systemd, reload_cops_pureftpd]
@@ -111,58 +111,58 @@ cops_pureftpd_rhandlers: [restart_cops_pureftpd_systemd, reload_cops_pureftpd]
 cops_pureftpd_reconfigure_services: |-
   {% set ret = [] %}
   {% if ansible_virtualization_type in ['docker'] %}
-  {% set _ = ret.append("post-start-{{vars['cops_pureftpd_service']}}") %}
+  {% set _ = ret.append("post-start-{{cops_pureftpd_service}}") %}
   {% endif %}
   {{ ret | to_json }}
 cops_pureftpd_activated: true
 # Layout, files & configs
 cops_pureftpd_stickymode: "2"
 cops_pureftpd_files___default:
-  - {path: "{{vars['cops_pureftpd_projects_dir']}}",
+  - {path: "{{cops_pureftpd_projects_dir}}",
      owner: root, group: root, state: directory}
-  - {path: "{{vars['cops_pureftpd_project_dir']}}",
+  - {path: "{{cops_pureftpd_project_dir}}",
      owner: root, group: root, state: directory}
-  - {path: "{{vars['cops_pureftpd_project_root']}}",
-     owner: "{{vars['cops_pureftpd_user']}}", group: "{{vars['cops_pureftpd_group']}}",
-     state: directory, mode: "{{vars['cops_pureftpd_stickymode']}}750"}
-  - {path: "{{vars['cops_pureftpd_data_root']}}",
-     owner: "{{vars['cops_pureftpd_user']}}", group: "{{vars['cops_pureftpd_group']}}",
-     state: directory, mode: "{{vars['cops_pureftpd_stickymode']}}751"}
-cops_pureftpd_files: "{{vars['cops_pureftpd_files___default']}}"
+  - {path: "{{cops_pureftpd_project_root}}",
+     owner: "{{cops_pureftpd_user}}", group: "{{cops_pureftpd_group}}",
+     state: directory, mode: "{{cops_pureftpd_stickymode}}750"}
+  - {path: "{{cops_pureftpd_data_root}}",
+     owner: "{{cops_pureftpd_user}}", group: "{{cops_pureftpd_group}}",
+     state: directory, mode: "{{cops_pureftpd_stickymode}}751"}
+cops_pureftpd_files: "{{cops_pureftpd_files___default}}"
 # Config files
 cops_pureftpd_configs___default: []
-cops_pureftpd_configs: "{{vars['cops_pureftpd_configs___default']}}"
+cops_pureftpd_configs: "{{cops_pureftpd_configs___default}}"
 cops_pureftpd_fixperms_configs___default:
   - {src: "../templates/fixperms.sh",
-     dest: "{{vars['cops_pureftpd_fixperms']}}", mode: "0755",
+     dest: "{{cops_pureftpd_fixperms}}", mode: "0755",
      owner: root, group: root}
-cops_pureftpd_fixperms_configs: "{{vars['cops_pureftpd_fixperms_configs___default']}}"
+cops_pureftpd_fixperms_configs: "{{cops_pureftpd_fixperms_configs___default}}"
 cops_pureftpd_ep_configs___default:
   # script to reconfigure image before and after systemd is launched
   - {src: "../templates/reconfigure.sh",
-     dest: "{{vars['cops_pureftpd_reconfigure']}}",
+     dest: "{{cops_pureftpd_reconfigure}}",
      mode: "0755",
      owner: "root",
      group: "root"}
   - {src: "../templates/post-start-reconfigure.service",
-     dest: "/etc/systemd/system/post-start-{{vars['cops_pureftpd_service']}}.service",
+     dest: "/etc/systemd/system/post-start-{{cops_pureftpd_service}}.service",
      mode: "0644",
      owner: "root",
      group: "root"}
-  - {src: "{{vars['cops_pureftpd_ep_template']}}",
+  - {src: "{{cops_pureftpd_ep_template}}",
      dest: "/app_entry_point", mode: "0755",
      owner: root, group: root}
-cops_pureftpd_ep_configs: "{{vars['cops_pureftpd_ep_configs___default']}}"
+cops_pureftpd_ep_configs: "{{cops_pureftpd_ep_configs___default}}"
 # SystemD based reconfigure unit settings
 cops_pureftpd_reconfigure_service_stderr: ""
 cops_pureftpd_reconfigure_service_stdout: ""
-cops_pureftpd_reconfigure_unit_after: "network.target {{vars['cops_pureftpd_service']}}.service"
+cops_pureftpd_reconfigure_unit_after: "network.target {{cops_pureftpd_service}}.service"
 cops_pureftpd_reconfigure_install_wantedby: "multi-user.target"
-cops_pureftpd_reconfigure: "{{vars['cops_pureftpd_project_dir']}}/reconfigure.sh"
+cops_pureftpd_reconfigure: "{{cops_pureftpd_project_dir}}/reconfigure.sh"
 cops_pureftpd_reconfigure_passenv: "ANSIBLE_PLAY ANSIBLE_FOLDER COPS_ROOT"
 cops_pureftpd_reconfigure_verbosity: "-v"
 # Code synchronnisation settings (FORCE_COPS_PROVISION_PUSH_CODE to force)
-cops_pureftpd_push_codes_cwd: "{{vars['cops_cwd']}}"
+cops_pureftpd_push_codes_cwd: "{{cops_cwd}}"
 cops_pureftpd_push_codes_sync_mode: "{{ (
   cops_installer_mode in ['vagrant'] or
   ansible_virtualization_type in ['docker']
@@ -177,13 +177,13 @@ cops_pureftpd_push_codes_rsync_submodule_opts:
   git:   ["-azv", "--exclude", "*.retry"]
   rsync: ["-azv", "--exclude", "*.retry"]
 cops_pureftpd_push_codes:
-- path: "{{vars['cops_pureftpd_project_root']}}"
-  origin_path: "{{vars['cops_pureftpd_push_codes_cwd']}}"
+- path: "{{cops_pureftpd_project_root}}"
+  origin_path: "{{cops_pureftpd_push_codes_cwd}}"
   sync_mode: "{{cops_pureftpd_push_codes_sync_mode}}"
   rsync_opts: "{{cops_pureftpd_push_codes_rsync_opts[cops_pureftpd_push_codes_sync_mode]}}"
   file_tests: "{{cops_pureftpd_push_codes_file_tests[cops_pureftpd_push_codes_sync_mode]}}"
-  owner: "{{vars['cops_pureftpd_user']}}"
-  group: "{{vars['cops_pureftpd_group']}}"
+  owner: "{{cops_pureftpd_user}}"
+  group: "{{cops_pureftpd_group}}"
   sub_paths: []
 # SSH deploy settings -> env vault
 cops_deploy_ssh_key_paths:
@@ -197,24 +197,24 @@ cops_deploy_ssh_key_paths:
     # -----END RSA PRIVATE KEY-----
 cops_pureftpd_environment___default:
   FOO: bar
-cops_pureftpd_environment: "{{vars['cops_pureftpd_environment___default']}}"
-cops_pureftpd_conf_Passsive: "{{vars['cops_pureftpd_data_root']}}/ftp"
+cops_pureftpd_environment: "{{cops_pureftpd_environment___default}}"
+cops_pureftpd_conf_Passsive: "{{cops_pureftpd_data_root}}/ftp"
 corpusops_services_ftp_pureftpd_conf_ForcePassiveIP: null
 corpusops_services_ftp_pureftpd_conf_PassivePortRange: null
 #corpusops_services_ftp_pureftpd_conf_ForcePassiveIP: "x.x.x.x"
 #corpusops_services_ftp_pureftpd_conf_PassivePortRange: "22300 22400"
 cops_pureftpd_ftp_additional_users:
-- user: "{{vars['cops_pureftpd_user']}}-ro"
-  group: "{{vars['cops_pureftpd_group']}}-ro"
-#cops_pureftpd_ftp_root: "{{vars['cops_pureftpd_data_root']}}/ftp"
+- user: "{{cops_pureftpd_user}}-ro"
+  group: "{{cops_pureftpd_group}}-ro"
+#cops_pureftpd_ftp_root: "{{cops_pureftpd_data_root}}/ftp"
 cops_pureftpd_ftp_root: /srv/ftp
 cops_pureftpd_ftp_users:
 - admin:
-    password: "{{vars['cops_pureftpd_ftp_admin_password']}}"
-    home: "{{vars['cops_pureftpd_ftp_root']}}"
+    password: "{{cops_pureftpd_ftp_admin_password}}"
+    home: "{{cops_pureftpd_ftp_root}}"
     # sys user under the hood (must exist before)
-    user: "{{vars['cops_pureftpd_user']}}"
-    group: "{{vars['cops_pureftpd_group']}}"
+    user: "{{cops_pureftpd_user}}"
+    group: "{{cops_pureftpd_group}}"
     mode: "2771"
     # delete: false
     # readonly: false
@@ -222,13 +222,13 @@ cops_pureftpd_ftp_users:
     # operms: rwx (default) owner perms
     # perms: rwx (default)  effective user perms
 #- readonlyuser::
-#    password: "{{vars['cops_pureftpd_ftp_admin_password']}}"
-#    home: "{{vars['cops_pureftpd_ftp_root']}}"
+#    password: "{{cops_pureftpd_ftp_admin_password}}"
+#    home: "{{cops_pureftpd_ftp_root}}"
 #    # sys user under the hood (must exist before)
-#    user: "{{vars['cops_pureftpd_user']}}-ro"
-#    group: "{{vars['cops_pureftpd_group']}}-ro"
-#    owner: "{{vars['cops_pureftpd_user']}}"
-#    owner_group: "{{vars['cops_pureftpd_group']}}"
+#    user: "{{cops_pureftpd_user}}-ro"
+#    group: "{{cops_pureftpd_group}}-ro"
+#    owner: "{{cops_pureftpd_user}}"
+#    owner_group: "{{cops_pureftpd_group}}"
 #    mode: "2771"
 #		 perms: r--
 #    # delete: false
